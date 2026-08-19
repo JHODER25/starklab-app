@@ -1,150 +1,475 @@
-.page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
+.dashboard {
   display: flex;
-  flex: 1;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
-}
-
-.main {
-  display: flex;
-  flex: 1;
+  gap: 2rem;
   width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.intro {
+.header {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
+  gap: 0.5rem;
 }
 
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
+.title {
+  font-family: var(--font-orbitron);
+  font-size: 2.5rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
+.subtitle {
+  color: #888;
+  font-size: 1rem;
 }
 
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
 }
 
-.ctas {
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card Styles */
+.card {
+  background: rgba(10, 10, 10, 0.8);
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+.cardHeader {
+  font-family: var(--font-orbitron);
+  font-size: 1.2rem;
+  color: #ff3333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(255,0,0,0.2);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Specific Widgets */
+.summaryWidget {
+  grid-column: span 8;
   display: flex;
   flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.ctas a {
+.summaryItem {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.summaryValue {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+  font-family: var(--font-orbitron);
+}
+
+.summaryLabel {
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.levelWidget {
+  grid-column: span 4;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.xpRingContainer {
+  position: relative;
+  width: 120px;
+  height: 120px;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
+  border-radius: 50%;
+  background: conic-gradient(#ff1a1a var(--progress), rgba(255,0,0,0.1) 0deg);
+  box-shadow: 0 0 20px rgba(255,0,0,0.2);
+}
+
+.xpRingInner {
+  width: 100px;
+  height: 100px;
+  background: #0a0a0a;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.xpRingValue {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  font-family: var(--font-orbitron);
+}
+
+.xpRingLabel {
+  font-size: 0.7rem;
+  color: #ff3333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.habitsWidget {
+  grid-column: span 8;
+}
+
+.questsWidget {
+  grid-column: span 4;
+}
+
+.habitRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.habitRow:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.habitName {
+  font-weight: 600;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.habitXP {
+  color: #ffaa00;
+  font-size: 0.9rem;
+  font-family: var(--font-orbitron);
+  font-weight: 600;
+}
+
+.completeBtn {
+  background: transparent;
+  border: 2px solid #ff3333;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
   cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+.completeBtn:hover {
+  background: rgba(255,0,0,0.2);
+  box-shadow: 0 0 10px rgba(255,0,0,0.5);
+  transform: scale(1.1);
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.completeBtn:active {
+  transform: scale(0.9);
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
+.completedBtn {
+  background: #ff3333;
+  border: 2px solid #ff3333;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: default;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: bold;
 }
 
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
-  }
-
-  .intro {
-    gap: 16px;
-  }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
+.balanceAmount {
+  font-size: 3rem;
+  font-weight: 800;
+  color: white;
+  font-family: var(--font-orbitron);
+  margin-top: 1rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-
-  .page {
-    --background: #000;
-    --foreground: #000;
-
-    --text-primary: #ededed;
-    --text-secondary: #999;
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
-  }
+.financeActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-.code {
-  font-family: var(--font-geist-mono);
-  font-size: 0.9em;
-  background: color-mix(in srgb, currentColor 8%, transparent);
-  padding: 0.1em 0.4em;
+.financeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currencySymbol {
+  position: absolute;
+  left: 1.2rem;
+  color: white;
+  font-family: var(--font-orbitron);
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.amountInput {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem 1rem 1rem 3rem;
+  color: white;
+  font-family: var(--font-orbitron);
+  font-size: 1.5rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.amountInput:focus {
+  border-color: #ff3333;
+  background: rgba(255, 0, 0, 0.05);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+}
+
+.categoryInput {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  color: white;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.categoryInput:focus {
+  border-color: #ff3333;
+}
+
+.financeBtn {
+  flex: 1;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btnIncome {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+  border: 1px solid #10B981;
+}
+
+.btnIncome:hover {
+  background: rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+  transform: translateY(-2px);
+}
+
+.btnIncome:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 0 5px rgba(16, 185, 129, 0.4);
+}
+
+.btnExpense {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid #ef4444;
+}
+
+.btnExpense:hover {
+  background: rgba(239, 68, 68, 0.2);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+  transform: translateY(-2px);
+}
+
+.btnExpense:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 0 5px rgba(239, 68, 68, 0.4);
+}
+
+/* Contribution Grid Widget */
+.gridWidget {
+  grid-column: span 12;
+  overflow-x: auto;
+}
+
+.contributionContainer {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.contributionLabels {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #888;
+  font-size: 0.8rem;
+  font-weight: 600;
+  min-width: 120px;
+}
+
+.contributionGrid {
+  display: flex;
+  gap: 4px;
+}
+
+.contributionCol {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contributionCell {
+  width: 16px;
+  height: 16px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  transition: all 0.2s;
+  cursor: crosshair;
+}
+
+.cellActive {
+  background: #ff1a1a;
+  box-shadow: 0 0 8px rgba(255, 26, 26, 0.5);
+}
+
+.contributionCell:hover {
+  transform: scale(1.3);
+  border: 1px solid white;
+  z-index: 10;
+}
+
+/* New Gamification Widgets */
+.timeWidget {
+  grid-column: span 5;
+}
+
+.timeForm {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.timeInput {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: white;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-family: var(--font-orbitron);
+  font-size: 1.2rem;
+  outline: none;
+}
+
+.btnWakeUp {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+  border: 1px solid #10B981;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+}
+
+.btnWakeUp:hover {
+  background: rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.contractWidget {
+  grid-column: span 8;
+}
+
+.contractMilestone {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.milestoneHeader {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.milestoneBarContainer {
+  width: 100%;
+  height: 12px;
+  background: rgba(255,255,255,0.05);
   border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.milestoneBar {
+  height: 100%;
+  background: linear-gradient(90deg, #ff1a1a, #ffaa00);
+  border-radius: 6px;
+  transition: width 0.5s ease-out;
+}
+
+@media (max-width: 1024px) {
+  .summaryWidget, .levelWidget, .habitsWidget, .financeWidget, .timeWidget, .contractWidget {
+    grid-column: span 1;
+  }
 }
