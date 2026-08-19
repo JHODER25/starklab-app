@@ -21,6 +21,16 @@ import { eq } from 'drizzle-orm';
 export const metadata: Metadata = {
   title: "SISTEMA STARKLAB",
   description: "Crea hábitos y supera tus niveles.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Starklab",
+  },
+};
+
+export const viewport = {
+  themeColor: "#000000",
 };
 
 export default async function RootLayout({
