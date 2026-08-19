@@ -1,12 +1,18 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './habits.module.css';
 import { createHabit } from '../actions';
 
 export default function NewHabitForm() {
   const [isQuant, setIsQuant] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -40,7 +46,7 @@ export default function NewHabitForm() {
         +
       </button>
 
-      {isOpen && (
+      {isOpen && mounted && createPortal(
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.8)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, backdropFilter: 'blur(5px)' }}>
           <div style={{ background: '#111', padding: '2rem', borderRadius: '16px', border: '1px solid rgba(255, 26, 26, 0.3)', width: '90%', maxWidth: '450px', boxShadow: '0 0 30px rgba(255, 26, 26, 0.2)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
@@ -98,6 +104,12 @@ export default function NewHabitForm() {
       />
       
       <input 
+        type="hidden" 
+        name="penaltyXp" 
+        value="20"
+      />
+
+      <input 
         type="color" 
         name="color" 
         defaultValue="#00f3ff" 
@@ -105,12 +117,13 @@ export default function NewHabitForm() {
         title="Pick a neon color"
       />
       
-              <button type="submit" className={styles.btnSubmit} style={{ marginTop: '1rem' }}>
-                + Crear Hábito
+              <button type="submit" className={styles.saveBtn} style={{ marginTop: '1rem' }}>
+                INICIAR PROTOCOLO
               </button>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
