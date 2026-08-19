@@ -6,6 +6,8 @@ import { useState, useEffect } from 'react';
 import styles from './Sidebar.module.css';
 import { LayoutDashboard, Target, Wallet, UserCircle2, ChevronLeft, ChevronRight } from 'lucide-react';
 
+import { getRankInfo } from '@/utils/ranks';
+
 export default function Sidebar({ userLevel = 1, userXp = 0 }: { userLevel?: number, userXp?: number }) {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -25,8 +27,7 @@ export default function Sidebar({ userLevel = 1, userXp = 0 }: { userLevel?: num
     { href: '/profile', label: 'Perfil', icon: UserCircle2, color: '#b026ff' },
   ];
 
-  const currentLevelXp = userXp - ((userLevel - 1) * 1000);
-  const progressPercent = Math.min((currentLevelXp / 1000) * 100, 100);
+  const { currentRank, nextRank, progressPercent, xpInCurrentLevel, xpNeeded } = getRankInfo(userXp);
 
   return (
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}>
@@ -65,17 +66,30 @@ export default function Sidebar({ userLevel = 1, userXp = 0 }: { userLevel?: num
       </nav>
 
       <div className={styles.userCard}>
-        <div className={styles.userAvatar}>OP</div>
-        <div className={styles.userInfo} style={{ width: '100%' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span className={styles.userName}>Operador</span>
-            <span className={styles.userRole} style={{ color: '#ff1a1a', fontWeight: 'bold' }}>Lvl {userLevel}</span>
-          </div>
+        <div 
+          className={styles.userAvatar} 
+          style={{ 
+            background: `${currentRank.color}15`, 
+            border: `2px solid ${currentRank.color}`,
+            boxShadow: `0 0 15px ${currentRank.color}40`,
+            color: currentRank.color,
+            textShadow: `0 0 5px ${currentRank.color}`
+          }}
+        >
+          OP
+        </div>
+        <div className={styles.userInfo} style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+          <span className={styles.userName} style={{ fontSize: '0.9rem', lineHeight: '1' }}>Operador</span>
+          <span className={styles.userRole} style={{ color: currentRank.color, fontWeight: 'bold', fontSize: '0.7rem', textTransform: 'uppercase', textShadow: `0 0 5px ${currentRank.color}`, letterSpacing: '1px' }}>
+            {currentRank.name}
+          </span>
           
-          <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', marginTop: '6px', overflow: 'hidden' }}>
-             <div style={{ width: `${progressPercent}%`, height: '100%', background: '#ff1a1a', boxShadow: '0 0 5px #ff1a1a', transition: 'width 0.3s ease-out' }}></div>
+          <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', marginTop: '4px', overflow: 'hidden' }}>
+             <div style={{ width: `${progressPercent}%`, height: '100%', background: currentRank.color, boxShadow: `0 0 8px ${currentRank.color}`, transition: 'width 0.3s ease-out' }}></div>
           </div>
-          <div style={{ fontSize: '0.6rem', color: '#666', marginTop: '4px', textAlign: 'right', fontWeight: 'bold' }}>{currentLevelXp} / 1000 XP</div>
+          <div style={{ fontSize: '0.65rem', color: '#aaa', marginTop: '2px', textAlign: 'right', fontFamily: 'var(--font-orbitron)' }}>
+            {nextRank ? `${xpInCurrentLevel} / ${xpNeeded} XP` : 'NIVEL MÁXIMO'}
+          </div>
         </div>
       </div>
     </aside>

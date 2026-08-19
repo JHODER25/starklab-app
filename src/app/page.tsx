@@ -8,6 +8,8 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import QuestModalClient from './QuestModalClient';
 import ContractWidgetClient from './ContractWidgetClient';
+import DailyWelcomeScreen from '@/components/DailyWelcomeScreen';
+import { getRankInfo } from '@/utils/ranks';
 
 export default async function Dashboard() {
   const supabase = await createClient()
@@ -26,12 +28,9 @@ export default async function Dashboard() {
   // Cargar hábitos
   let userHabits = await db.select().from(habits).where(eq(habits.userId, user.id));
 
-  // Cálculo de XP y Niveles
+  // Cálculo de XP y Rango
   const currentXp = userProfile?.totalXp || 0;
-  const currentLevel = userProfile?.currentLevel || 1;
-  const xpInCurrentLevel = currentXp - ((currentLevel - 1) * 1000);
-  const xpNeeded = 1000;
-  const progressPercent = Math.min((xpInCurrentLevel / xpNeeded) * 100, 100);
+  const { currentRank, nextRank, progressPercent, xpInCurrentLevel, xpNeeded } = getRankInfo(currentXp);
 
   // Consultar logs de hoy
   const peruMidnightUTC = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Lima' }));
@@ -100,6 +99,8 @@ export default async function Dashboard() {
 
   return (
     <div className={styles.dashboard}>
+      <DailyWelcomeScreen />
+      
       <header className={`${styles.header} animate-fade-in`}>
         <h1 className={styles.title}>Dashboard</h1>
         <p className={styles.subtitle}>Economía Unificada: Controla tu tiempo, dinero y disciplina.</p>
@@ -161,13 +162,19 @@ export default async function Dashboard() {
 
         {/* RIGHT COLUMN */}
         <div className={styles.rightColumn}>
-          {/* LEVEL WIDGET */}
-          <div className={`${styles.card} animate-fade-in`} style={{ animationDelay: "0.4s", alignItems: 'center', justifyContent: 'center' }}>
-            <div className={styles.cardHeader} style={{ alignSelf: 'flex-start' }}>NIVEL {currentLevel}</div>
-            <div className={styles.xpRingContainer} style={{ "--progress": `${progressPercent}%` } as React.CSSProperties}>
+          {/* RANK WIDGET */}
+          <div className={`${styles.card} animate-fade-in`} style={{ animationDelay: "0.4s", alignItems: 'center', justifyContent: 'center', borderColor: currentRank.color, boxShadow: `0 0 20px ${currentRank.color}20` }}>
+            <div className={styles.cardHeader} style={{ alignSelf: 'flex-start', color: currentRank.color, textShadow: `0 0 10px ${currentRank.color}` }}>
+              RANGO: {currentRank.name}
+            </div>
+            <div className={styles.xpRingContainer} style={{ "--progress": `${progressPercent}%`, "--ring-color": currentRank.color } as React.CSSProperties}>
               <div className={styles.xpRingInner}>
-                 <span className={styles.xpRingValue}>{xpInCurrentLevel}</span>
-                 <span className={styles.xpRingLabel}>/ {xpNeeded} XP</span>
+                 <span className={styles.xpRingValue} style={{ color: currentRank.color, textShadow: `0 0 10px ${currentRank.color}` }}>{xpInCurrentLevel}</span>
+                 {nextRank ? (
+                   <span className={styles.xpRingLabel}>/ {xpNeeded} XP para {nextRank.name}</span>
+                 ) : (
+                   <span className={styles.xpRingLabel}>Nivel Máximo Alcanzado</span>
+                 )}
               </div>
             </div>
           </div>

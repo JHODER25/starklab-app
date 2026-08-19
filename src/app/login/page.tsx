@@ -26,7 +26,14 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
           </div>
         )}
 
-        <form className="animate-fade-in" style={{ animationDelay: "0.2s" }}>
+        <form 
+          action={async (formData) => {
+            'use server';
+            await login(formData);
+          }} 
+          className="animate-fade-in" 
+          style={{ animationDelay: "0.2s" }}
+        >
           <div className={styles.inputGroup}>
             <label htmlFor="email" className={styles.label}>
               ID DE USUARIO (EMAIL)
@@ -56,10 +63,16 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
           </div>
 
           <div className={styles.buttonContainer}>
-            <button formAction={login} className={styles.primaryButton}>
+            <button type="submit" className={styles.primaryButton}>
               INGRESAR AL SISTEMA
             </button>
-            <button formAction={signup} className={styles.secondaryButton}>
+            <button 
+              formAction={async (formData) => {
+                'use server';
+                await signup(formData);
+              }} 
+              className={styles.secondaryButton}
+            >
               SOLICITAR REGISTRO
             </button>
           </div>

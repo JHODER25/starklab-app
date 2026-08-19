@@ -186,8 +186,9 @@
 }
 
 .userAvatar {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
   border-radius: 50%;
   background: linear-gradient(135deg, #ff1a1a, #800000);
   display: flex;
@@ -202,12 +203,17 @@
 .userInfo {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  width: 100%;
 }
 
 .userName {
   color: white;
   font-weight: 600;
   font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .userRole {
@@ -216,6 +222,9 @@
   font-family: var(--font-orbitron);
   text-transform: uppercase;
   letter-spacing: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 1024px) {

@@ -4,6 +4,7 @@ import { db } from '@/db';
 import { xpHistory, users } from '@/db/schema';
 import { eq, desc } from 'drizzle-orm';
 import { redirect } from "next/navigation";
+import { getRankInfo } from "@/utils/ranks";
 
 export default async function ProfilePage() {
   const supabase = await createClient()
@@ -14,12 +15,20 @@ export default async function ProfilePage() {
   }
 
   const [dbUser] = await db.select().from(users).where(eq(users.id, user.id));
+  const { currentRank } = getRankInfo(dbUser?.totalXp || 0);
   
   const historyLogs = await db.select()
     .from(xpHistory)
     .where(eq(xpHistory.userId, user.id))
     .orderBy(desc(xpHistory.createdAt))
-    .limit(50);
+    .limit(15);
+
+  const logout = async () => {
+    'use server';
+    const supabase = await createClient();
+    await supabase.auth.signOut();
+    redirect('/login');
+  };
 
   return (
     <div className={styles.dashboard}>
@@ -27,17 +36,37 @@ export default async function ProfilePage() {
         <h1 className={styles.title}>Perfil de Operador</h1>
         <p className={styles.subtitle}>Tu expediente personal en el Sistema Starklab.</p>
       </header>
-      <div className={`${styles.card} animate-fade-in`} style={{ animationDelay: "0.1s" }}>
+      <div className={`${styles.card} animate-fade-in`} style={{ animationDelay: "0.1s", borderColor: currentRank.color, boxShadow: `0 0 20px ${currentRank.color}20` }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2 className={styles.cardHeader}>Datos del Usuario</h2>
+          <h2 className={styles.cardHeader} style={{ color: currentRank.color, borderColor: `${currentRank.color}40`, textShadow: `0 0 10px ${currentRank.color}` }}>Datos del Usuario</h2>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ color: '#ff1a1a', fontWeight: 'bold', fontFamily: 'var(--font-orbitron)' }}>NIVEL {dbUser?.currentLevel || 1}</div>
+            <div style={{ color: currentRank.color, fontWeight: 'bold', fontFamily: 'var(--font-orbitron)', textShadow: `0 0 10px ${currentRank.color}` }}>RANGO: {currentRank.name}</div>
             <div style={{ color: '#888', fontSize: '0.8rem' }}>Total XP: {dbUser?.totalXp || 0}</div>
           </div>
         </div>
-        <p style={{ color: "#fff", marginTop: "1rem", fontSize: '0.9rem' }}>
-          <strong>Email Autenticado:</strong> {user.email}
-        </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1rem' }}>
+          <p style={{ color: "#fff", fontSize: '0.9rem' }}>
+            <strong>Email Autenticado:</strong> {user.email}
+          </p>
+          <form action={logout}>
+            <button 
+              type="submit" 
+              style={{
+                background: 'rgba(255,0,0,0.1)',
+                border: '1px solid #ff1a1a',
+                color: '#ff1a1a',
+                padding: '0.5rem 1rem',
+                borderRadius: '8px',
+                fontFamily: 'var(--font-orbitron)',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                fontSize: '0.8rem'
+              }}
+            >
+              CERRAR SESIÓN
+            </button>
+          </form>
+        </div>
       </div>
 
       <div className={`${styles.card} animate-fade-in`} style={{ animationDelay: "0.2s", marginTop: "2rem" }}>
