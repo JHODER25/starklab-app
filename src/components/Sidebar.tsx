@@ -36,8 +36,10 @@ export default function Sidebar({ userLevel = 1, userXp = 0 }: { userLevel?: num
       </button>
 
       <div className={styles.logoContainer}>
-        <div className={styles.logoIcon}>S</div>
-        <h2 className={styles.logoText}>Starklab</h2>
+        <div className={styles.logoIcon} style={{ background: 'transparent', boxShadow: 'none' }}>
+          <img src="/icon-192x192.png" alt="Logo" style={{ width: '100%', height: '100%', borderRadius: '8px' }} />
+        </div>
+        <h2 className={styles.logoText} style={{ fontSize: '1.2rem', letterSpacing: '1px' }}>The System</h2>
       </div>
       
       <nav className={styles.nav}>
