@@ -40,7 +40,7 @@ export default function FinanceChart({ data }: { data: any[] }) {
             itemStyle={{ color: '#ff1a1a', fontWeight: 'bold' }}
           />
           <Area 
-            type="linear" 
+            type="monotone" 
             dataKey="value" 
             stroke="#ff1a1a" 
             strokeWidth={3}

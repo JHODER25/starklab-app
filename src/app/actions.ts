@@ -57,7 +57,11 @@ export async function addTransaction(formData: FormData) {
 
   if (isNaN(amount) || amount <= 0 || !type) return;
 
-  const logicalDateString = new Date().toISOString().split('T')[0];
+  // Obtenemos la fecha local (Perú/local) en formato YYYY-MM-DD
+  const now = new Date();
+  const offset = now.getTimezoneOffset() * 60000;
+  const localDate = new Date(now.getTime() - offset);
+  const logicalDateString = localDate.toISOString().split('T')[0];
 
   await db.insert(financialTransactions).values({
     userId: user.id,
