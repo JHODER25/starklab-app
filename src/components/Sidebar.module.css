@@ -1,0 +1,271 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.95) 0%, rgba(5, 5, 5, 0.98) 100%);
+  border-right: 1px solid rgba(255, 51, 51, 0.15);
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  z-index: 50;
+  box-shadow: 5px 0 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.toggleBtn {
+  position: absolute;
+  top: 2rem;
+  right: -14px;
+  width: 28px;
+  height: 28px;
+  background: #111;
+  border: 1px solid rgba(255, 26, 26, 0.3);
+  border-radius: 50%;
+  color: #ff1a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 60;
+  transition: all 0.2s;
+  box-shadow: 0 0 10px rgba(255, 26, 26, 0.2);
+}
+
+.toggleBtn:hover {
+  background: #ff1a1a;
+  color: white;
+  transform: scale(1.1);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.logoIcon {
+  width: 32px;
+  height: 32px;
+  background: #ff1a1a;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: var(--font-orbitron);
+  font-weight: 900;
+  font-size: 1.2rem;
+  box-shadow: 0 0 15px rgba(255, 26, 26, 0.5);
+}
+
+.logoText {
+  font-family: var(--font-orbitron);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex: 1;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  color: #888;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.navLabel {
+  transition: opacity 0.2s ease;
+}
+
+.collapsed .navLabel {
+  opacity: 0;
+  width: 0;
+  display: none;
+}
+
+.collapsed .navLink {
+  padding: 1rem 0;
+  justify-content: center;
+}
+
+.collapsed .logoText {
+  display: none;
+}
+
+.collapsed .logoContainer {
+  justify-content: center;
+  padding-left: 0;
+}
+
+.collapsed .userInfo {
+  display: none;
+}
+
+.collapsed .userCard {
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.navLink:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.03);
+  transform: translateX(5px);
+}
+
+.collapsed .navLink:hover {
+  transform: scale(1.1);
+}
+
+.navLinkActive {
+  color: white;
+}
+
+.navLinkActive::before {
+  /* Handled dynamically inline in React */
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.navLinkActive .icon {
+  opacity: 1;
+}
+
+.navLink:hover .icon {
+  opacity: 1;
+}
+
+.userCard {
+  margin-top: auto;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.userCard:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff1a1a, #800000);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: var(--font-orbitron);
+  font-weight: 700;
+  border: 2px solid rgba(255, 26, 26, 0.3);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.userRole {
+  color: #ff3333;
+  font-size: 0.75rem;
+  font-family: var(--font-orbitron);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
+    flex-direction: row;
+    padding: 0;
+    border-right: none;
+    border-top: 1px solid rgba(255, 51, 51, 0.15);
+    z-index: 100;
+  }
+  
+  .logoContainer, .userCard, .toggleBtn {
+    display: none;
+  }
+  
+  .nav {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    gap: 0;
+  }
+  
+  .navLink {
+    flex-direction: column;
+    padding: 0.5rem;
+    gap: 0.3rem;
+    border-radius: 0;
+    font-size: 0.7rem;
+  }
+  
+  .navLink:hover {
+    transform: none;
+  }
+  
+  .navLinkActive {
+    background: linear-gradient(0deg, rgba(255, 26, 26, 0.15) 0%, transparent 100%);
+  }
+  
+  .navLinkActive::before {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 3px;
+    border-radius: 4px 4px 0 0;
+  }
+}
