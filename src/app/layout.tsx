@@ -19,13 +19,13 @@ import { users } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
 export const metadata: Metadata = {
-  title: "SISTEMA STARKLAB",
+  title: "THE SYSTEM",
   description: "Crea hábitos y supera tus niveles.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Starklab",
+    title: "The System",
   },
 };
 

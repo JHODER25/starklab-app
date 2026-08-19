@@ -1,6 +1,6 @@
 {
-  "name": "Starklab",
-  "short_name": "Starklab",
+  "name": "The System",
+  "short_name": "The System",
   "description": "Sistema de métricas, recompensas y hábitos personales.",
   "start_url": "/",
   "display": "standalone",
